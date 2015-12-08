@@ -3,11 +3,14 @@ package com.spotify.spawn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,6 +68,28 @@ public class Subprocesses {
      */
     public SubprocessBuilder terminateParentOnSubprocessExit() {
       return terminateParentOnSubprocessExit(SUBPROCESS_EXIT_CODE);
+    }
+
+    /**
+     * Set subprocess work directory.
+     */
+    public SubprocessBuilder directory(final String directory) {
+      return directory(Paths.get(directory));
+    }
+
+    /**
+     * Set subprocess work directory.
+     */
+    public SubprocessBuilder directory(final Path directory) {
+      return directory(directory.toFile());
+    }
+
+    /**
+     * Set subprocess work directory.
+     */
+    public SubprocessBuilder directory(final File directory) {
+      processBuilder.directory(directory);
+      return this;
     }
 
     /**
